@@ -22,7 +22,7 @@
     </div>
     <div class="row">
         <div class="col-md-9">
-            Manage your activities more efficient and faster.
+            Hi <b>{{ Session::get('user_name') }}</b>, manage your activities more efficient and faster.
         </div>
         <div class="col-md-3 add-todo">
             <a class="btn btn-primary" href="./todolist/create">

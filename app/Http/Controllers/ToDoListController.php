@@ -120,7 +120,7 @@ class ToDoListController extends Controller
                 Common::showMessage($request, 'To Do List was successfully saved!');
                 return redirect('/');
             } catch(\Exception $e) {
-                Common::showMessage($request, 'Something goes wrong!' . $e, true);
+                Common::showMessage($request, 'Something goes wrong!', true);
             }   
         }
     }

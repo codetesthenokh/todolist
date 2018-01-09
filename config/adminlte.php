@@ -107,27 +107,7 @@ return [
     |
     */
 
-    'menu' => [
-        'MAIN NAVIGATION',
-        [
-            'text'        => 'To do list',
-            'url'         => '',
-            'icon'        => 'file-text-o',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        'ACCOUNT SETTINGS',
-        [
-            'text' => 'Profile',
-            'url'  => '',
-            'icon' => 'user',
-        ],
-        [
-            'text' => 'Change Password',
-            'url'  => '',
-            'icon' => 'lock',
-        ]
-    ],
+    'menu' => [],
 
     /*
     |--------------------------------------------------------------------------

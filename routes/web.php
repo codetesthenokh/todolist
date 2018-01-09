@@ -19,6 +19,10 @@ Route::middleware('checkSession')->group( function() {
     Route::get('/todolist/edit/{id}', "ToDoListController@editToDoList")->name('edit_to_do_list');
     Route::post('/todolist/edit/{id}', "ToDoListController@saveToDoList")->name('save_to_do_list');
     Route::get('/todolist/setcomplete/{id}', "ToDoListController@setToDoListComplete")->name('set_complete_to_do_list');
+    Route::get('/account/changepassword', "UserController@changePassword")->name('change_password');
+    Route::post('/account/changepassword', "UserController@changePassword")->name('submit_change_password');
+    Route::get('/account/profile', "UserController@editProfile")->name('edit_profile');
+    Route::post('/account/profile', "UserController@saveProfile")->name('submit_edit_profile');
 });
 
 Route::get('/account/register', "UserController@register")->name('register');

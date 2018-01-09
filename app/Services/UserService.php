@@ -17,10 +17,9 @@ class UserService extends BaseService
      * Call service to get user by id
      * 
      * @param string
-     * @param string
      * @return response
      */
-    public function getUserById($user_id, $id) {
+    public function getUserById($id) {
         $response = $this->client->request('GET', 'user/' . $id);
         
         return $response;
@@ -38,7 +37,43 @@ class UserService extends BaseService
             'form_params' => [
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
-                'password'=> $request->input('password')
+                'password'=> md5($request->input('password'))
+            ]
+        ]);
+        
+        return $response;
+    }
+
+     /**
+     * Call service to change password
+     * 
+     * @param Illuminate\Http\Request
+     * @param string
+     * @return response
+     */
+    public function changePassword($request, $id) {
+        $response =  $this->client->put('user/' . $id, [
+            'body' => $request,
+            'form_params' => [
+                'password' => md5($request->input('password'))
+            ]
+        ]);
+        
+        return $response;
+    }
+
+    /**
+     * Call service to edit profile
+     * 
+     * @param Illuminate\Http\Request
+     * @param string
+     * @return response
+     */
+    public function editProfile($request, $id) {
+        $response =  $this->client->put('user/' . $id, [
+            'body' => $request,
+            'form_params' => [
+                'name' => $request->input('name')
             ]
         ]);
         

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Session;
 use App\Libraries\Common;
 use App\Services\UserService;
 use App\User;
+use Carbon\Carbon;
+
 class UserController extends Controller
 {
     public function __construct() {
@@ -46,6 +48,85 @@ class UserController extends Controller
         return view('account/register', $data);
     }
 
+    /** Edit Profile
+     * 
+     * @param Illuminate\Http\Request
+     * @return view
+     */
+    public function editProfile(Request $request) {
+        $data = [];
+        $res = $this->userService->getUserById(Session::get('user_id'));
+        $user = json_decode($res->getBody()->getContents());
+        if ($user != null) {
+            $data['name'] = $user->name;
+        } else {
+            return redirect('errors/404');
+        }
+
+        return view('account/edit_profile', $data);
+    }
+
+    /**
+     * Save edited profile
+     * @access public
+     * @param Illuminate\Http\Request
+     * @param string
+     * @return view
+     */
+    public function saveProfile(Request $request) {
+        $data = [];
+        
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'name'=>'required'
+            ]);
+
+            try {
+                $res = $this->userService->editProfile($request, Session::get('user_id'));
+                Common::showMessage($request, 'Profile was successfully saved!');
+                Session::put('user_name', $request->input('name'));
+                return redirect('/');
+            } catch(\Exception $e) {
+                Common::showMessage($request, 'Something goes wrong!', true);
+            }   
+        }
+    }
+
+    /** Change password
+     * 
+     * @param Illuminate\Http\Request
+     * @return view
+     */
+    public function changePassword(Request $request) {
+        $data = [];
+        $data["old_password"] = null;
+        $data["password"] = null;;
+        $data["confirm_password"] = null;;
+
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'old_password'=>'required',
+                'password'=>'required',
+                'confirm_password'=>'required|confirmationPassword:' . $request->input('password')
+            ],[
+                'confirm_password.confirmation_password'=> 'Confirmation password must be identical with password.'
+            ]);
+
+            $whereclause = ['id' => Session::get('user_id'), 'password' => md5($request->input('old_password'))];
+            $user_login = User::where($whereclause)->first();
+            
+            if ($user_login != null) {
+                $res = $this->userService->changePassword($request, Session::get('user_id'));
+                Common::showMessage($request, 'Password was successfully changed!');
+                return redirect('/');
+            } else {
+                Common::showMessage($request, 'Wrong password', true);
+            }
+        }
+
+        return view('account/change_password', $data);
+    }
+
     /** Validate log in
      * 
      * @param Illuminate\Http\Request
@@ -67,6 +148,8 @@ class UserController extends Controller
             
             if ($user_login != null) {
                 Session::put('user_id', $user_login->id);
+                Session::put('user_name', $user_login->name);
+                Session::put('expired_at', Carbon::now()->addMinutes(15));
                 return redirect('/');
             } else {
                 Common::showMessage($request, 'User not found', true);

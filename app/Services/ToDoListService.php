@@ -76,6 +76,18 @@ class ToDoListService extends BaseService
     }
 
     /**
+     * Call service to get count incomplete to do list
+     * 
+     * @param string
+     * @return response
+     */
+    public function getIncompleteToDoListCount($user_id) {
+        $response = $this->client->request('GET', 'incompletecount/' . $user_id);
+        
+        return $response;
+    }
+
+    /**
      * Call service to edit to do list
      * 
      * @param Illuminate\Http\Request
