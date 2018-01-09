@@ -225,6 +225,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'ToDoListService' =>  App\Services\ToDoListService::class,
+        'Common' =>  App\Libraries\Common::class,
 
     ],
 

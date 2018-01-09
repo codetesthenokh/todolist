@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,9 +13,17 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Dispatcher $events)
     {
-        //
+        /**
+         * Validate two fields value are same
+         * 
+         * @parameters[0], password value
+         * @return bool
+         */
+        Validator::extend('confirmationPassword', function ($attribute, $value, $parameters, $validator) {            
+            return $value === $parameters[0];
+        });
     }
 
     /**

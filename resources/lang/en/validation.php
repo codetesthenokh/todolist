@@ -103,6 +103,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'name' => [
+            'confirmation_password'=> 'The :attribute must be identical with password.'
+        ]
     ],
 
     /*
