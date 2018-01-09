@@ -77,7 +77,7 @@
     </div>
 
     <input type="submit" class="btn btn-primary" id="create-to-do-list"
-        name="create-to-do-list" onclick="disableButton()" value="Add" />
+        name="create-to-do-list" onclick="disableButton()" value="Save" />
     <a href="{{ route('to_do_list') }}" class="btn btn-default">Cancel</a>
 </form>
 @stop

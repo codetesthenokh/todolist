@@ -74,11 +74,18 @@ class ToDoListController extends Controller
         return view('to_do_list/form', $data);
     }
 
+    /**
+     * Show details page before edit
+     * @access public
+     * @param Illuminate\Http\Request
+     * @param string
+     * @return view
+     */
     public function editToDoList(Request $request, $id) {
         $data = [];
         $data['modify'] = 1;
         $data['id'] = $id;
-        $res = $this->toDoListService->getToDoListById(1, $id);
+        $res = $this->toDoListService->getToDoListById(Session::get('user_id'), $id);
         $todolist = json_decode($res->getBody()->getContents());
         if ($todolist != null) {
             $data['title'] = $todolist->title;
@@ -93,6 +100,13 @@ class ToDoListController extends Controller
         return view('to_do_list/form', $data);
     }
 
+    /**
+     * Save edited to do list item
+     * @access public
+     * @param Illuminate\Http\Request
+     * @param string
+     * @return view
+     */
     public function saveToDoList(Request $request, $id) {
         $data = [];
         
@@ -101,16 +115,8 @@ class ToDoListController extends Controller
                 'title'=>'required'
             ]);
 
-            // $todolist = ToDoListService::getToDoListById($id);
-            // $todolist['title'] = $request->input('title');
-            // $todolist['description'] = $request->input('description');
-            // $todolist['due_date'] = $this->formatDateTime($request->input('due_date'), $request->input('due_time'));
-            // $todolist->is_completed = 0;
-            
-            // TODO: Call service to save record
-            
             try {
-                $res = $this->toDoListService->editToDoList($request, $id);
+                $res = $this->toDoListService->editToDoList($request, $id, Session::get('user_id'));
                 Common::showMessage($request, 'To Do List was successfully saved!');
                 return redirect('/');
             } catch(\Exception $e) {
@@ -118,8 +124,4 @@ class ToDoListController extends Controller
             }   
         }
     }
-
-    // private function formatDateTime($date, $time) {
-    //     return $date . ' ' .$time;
-    // }
 }

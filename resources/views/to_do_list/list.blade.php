@@ -51,7 +51,7 @@
                 </div>
                 {{--  <span>{{ Carbon\Carbon::parse($todo['due_date'])->format('j F Y') }}</span>  --}}
                 <div class="col-md-1 col-xs-2 action-cell">
-                    <a class="btn btn-default"
+                    <a class="btn btn-default {{ $todo->is_completed != null && $todo->is_completed == 1 ? 'hidden-button' : '' }}"
                         href="{{route('edit_to_do_list', ['id'=> $todo->id])}}">
                         <i class="fa fa-edit"></i>
                     </a>
@@ -80,6 +80,9 @@
         }
         .action-cell {
             float: right;
+        }
+
+        .hidden-button {
             visibility: hidden;
         }
 

@@ -75,18 +75,27 @@ class ToDoListService extends BaseService
         return $response;
     }
 
-    // /**
-    //  * Call service to edit to do list
-    //  * 
-    //  * @param Illuminate\Http\Request
-    //  * @param string
-    //  * @return response
-    //  */
-    // public static function editToDoList($request, $id) {
-    //     $response =  $this->client->put('todolist/' . $id, [
-    //         'body' => $request
-    //     ]);
+    /**
+     * Call service to edit to do list
+     * 
+     * @param Illuminate\Http\Request
+     * @param string
+     * @return response
+     */
+    public function editToDoList($request, $id, $user_id) {
+        $due_date = $request->input('due_date') != null ?
+                    $request->input('due_date') . ' ' . $request->input('due_time') : null;
+        $response =  $this->client->put('todolist/' . $id, [
+            'body' => $request,
+            'form_params' => [
+                'title' => $request->input('title'),
+                'due_date' => $due_date,
+                'description'=> $request->input('description'),
+                'priority'=> $request->input('priority'),
+                'user_id'=> $user_id
+            ]
+        ]);
         
-    //     return $response;
-    // }
+        return $response;
+    }
 }
