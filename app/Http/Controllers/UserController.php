@@ -143,16 +143,16 @@ class UserController extends Controller
                 'password'=>'required'
             ]);
 
-            $whereclause = ['email' => $data["email"], 'password' => $data["password"]];
-            $user_login = User::where($whereclause)->first();
-            
-            if ($user_login != null) {
+            $res = $this->userService->login($request);
+            $user_login = json_decode($res->getBody()->getContents());
+            $tmp = (array) $user_login;
+            if ($user_login != null && !empty($tmp)) {
                 Session::put('user_id', $user_login->id);
                 Session::put('user_name', $user_login->name);
                 Session::put('expired_at', Carbon::now()->addMinutes(15));
                 return redirect('/');
             } else {
-                Common::showMessage($request, 'User not found', true);
+                Common::showMessage($request, 'Failed! Please re-check your username and password', true);
             }
         }
 

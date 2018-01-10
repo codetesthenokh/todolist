@@ -80,17 +80,21 @@ class UserService extends BaseService
         return $response;
     }
 
-    // /**
-    //  * Call service to validate log in
-    //  * 
-    //  * @param Illuminate\Http\Request;
-    //  * @return response
-    //  */
-    // public static function login($request) {
-    //     $response =  $this->client->request('POST', 'login', [
-    //         'body' => $request
-    //     ]);
+    /**
+     * Call service to validate log in
+     * 
+     * @param Illuminate\Http\Request;
+     * @return response
+     */
+    public function login($request) {
+        $response =  $this->client->request('POST', 'login', [
+            'body' => $request,
+            'form_params' => [
+                'email' => $request->input('email'),
+                'password' => md5($request->input('password'))
+            ]
+        ]);
         
-    //     return $response;
-    // }
+        return $response;
+    }
 }

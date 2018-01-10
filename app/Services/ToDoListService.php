@@ -20,7 +20,7 @@ class ToDoListService extends BaseService
      * @return response
      */
     public function getToDoLists($user_id) {
-        $response = $this->client->request('GET', 'todolistByUserId/' . $user_id);
+        $response = $this->client->request('GET', 'todolistbyuserid/' . $user_id);
         
         return $response;
     }

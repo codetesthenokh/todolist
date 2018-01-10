@@ -3,7 +3,7 @@
 Log in
 @endsection
 @section('form')        
-    <form action="{{route('login_auth')}}"
+    <form action="{{route('login_auth')}}" id="login"
         method="post">
         {{ csrf_field() }}
         <h1>Log in</h1>
@@ -44,6 +44,15 @@ Log in
             name="login" onclick="disableButton()" value="Log in" />
         <a href="{{ route('home') }}" class="btn btn-default">Cancel</a>
     </form>
+@endsection
+@section('style')
+<style>
+    @media(min-width: 768px) {
+        #login {
+            width: 25%;
+        }
+    }
+</style>
 @endsection
 @section('script')
     <script>
